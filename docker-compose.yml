@@ -20,8 +20,11 @@ services:
         - action: sync
           path: ./config
           target: /var/www/html/config
+        # Si modificas el Dockerfile o el composer.json, reconstruye la imagen
         - action: rebuild
           path: php.dockerfile
+        - action: rebuild
+          path: composer.json
 
   siamtel_db:
     image: mariadb:10.11
