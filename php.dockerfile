@@ -1,9 +1,7 @@
 FROM php:8.2-apache
 
-# Configuración de desarrollo de PHP
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-# Extensiones de base de datos y utilidades
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 
 RUN apt-get update && apt-get install -y \
@@ -17,11 +15,11 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd intl bz2 zip ldap exif
 
-# Habilitar mod_rewrite para URLs amigables (MVC)
 RUN a2enmod rewrite
 
-# Permisos y directivas de Apache
-RUN echo '<Directory /var/www/html/>\n\
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+
+RUN echo '<Directory /var/www/html/public/>\n\
     Options Indexes FollowSymLinks\n\
     AllowOverride All\n\
     Require all granted\n\

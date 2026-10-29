@@ -12,8 +12,14 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./src
-          target: /var/www/html
+          path: ./app
+          target: /var/www/html/app
+        - action: sync
+          path: ./public
+          target: /var/www/html/public
+        - action: sync
+          path: ./config
+          target: /var/www/html/config
         - action: rebuild
           path: php.dockerfile
 
